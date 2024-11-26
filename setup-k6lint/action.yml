@@ -1,0 +1,19 @@
+name: "Setup k6lint"
+description: "Setup k6lint to check the compliance of extensions."
+
+inputs:
+  k6lint-version:
+    description: "version to install"
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Reminder to setup-eget
+      shell: bash
+      run: type eget || ( echo "Missing 'eget' command, did you forget the setup-eget action?" >&2; exit 1 )
+
+    - name: Install k6lint
+      shell: bash
+      run: |
+        eget -t "${{inputs.k6lint-version}}" grafana/k6lint
