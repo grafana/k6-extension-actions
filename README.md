@@ -10,4 +10,5 @@ Name                                   | Summary
 [`setup-k6lint`](setup-k6lint)         | Setup [k6lint](https://github.com/grafana/k6lint) to check the compliance of extensions.
 [`setup-k6registry`](setup-k6registry) | Setup [k6registry](https://github.com/grafana/k6registry) to maintain the extension registry.
 [`setup-xk6`](setup-xk6)               | Setup [xk6](https://github.com/grafana/xk6) to build k6 with extensions.
+[`k6-versions-to-test`](k6-versions-to-test) | Provide the list of k6 versions to test with extensions.
 [`golangci-lint-version`](golangci-lint-version) | Provide the version of [golangci-lint](https://github.com/golangci/golangci-lint) to use.
