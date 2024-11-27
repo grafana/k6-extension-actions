@@ -1,0 +1,19 @@
+name: "Setup xk6"
+description: "Setup xk6 to build k6 with extensions."
+
+inputs:
+  xk6-version:
+    description: "version to install"
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Reminder to setup-eget
+      shell: bash
+      run: type eget || ( echo "Missing 'eget' command, did you forget the setup-eget action?" >&2; exit 1 )
+
+    - name: Install xk6
+      shell: bash
+      run: |
+        eget -t "${{inputs.xk6-version}}" grafana/xk6

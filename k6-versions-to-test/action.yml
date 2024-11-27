@@ -1,0 +1,42 @@
+name: "Return k6 versions to test"
+description: |
+  Returns the list of k6 versions with which the extension should be tested.
+  This means the two latest k6 minor versions.
+
+outputs:
+  versions:
+    description: k6 versions to test as a JSON array
+    value: ${{steps.run.outputs.versions}}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install bun
+      uses: oven-sh/setup-bun@v2
+
+    - name: Detect k6 versions
+      shell: bash
+      id: run
+      env:
+        SCRIPT: ${{runner.temp}}/k6-versions.js
+      run: |
+        cat > $SCRIPT << END
+        const k6 = await fetch("https://registry.k6.io/module/go.k6.io/k6/extension.json").then((r) => r.json());
+
+        const maintained = k6.versions.shift();
+        const latestMinor = /^(v?[0-9]+\.[0-9]+)\..*/.exec(maintained)[1];
+
+        let supported = "";
+
+        for (const version of k6.versions) {
+          supported = version;
+
+          if (!version.startsWith(latestMinor)) {
+            break;
+          }
+        }
+
+        console.info("versions=" + JSON.stringify([maintained, supported]));
+        END
+
+        bun run $SCRIPT >> $GITHUB_OUTPUT
