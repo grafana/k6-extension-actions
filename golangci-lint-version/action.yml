@@ -1,0 +1,25 @@
+name: "Return golangci-lint version"
+description: |
+  Return the golangci-lint version number from the first comment line of the .golangci.yml configuration file.
+  If there is no configuration file in the working directory,
+  the file will be downloaded from the default branch of the grafana/k6 repository.
+
+outputs:
+  version:
+    description: golangci-lint version to use
+    value: ${{steps.run.outputs.version}}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Retrieve golangci-lint version
+      id: run
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{github.token}}
+      run: |
+        if [ ! -f .golangci.yml ] || (head -1 .golangci.yml | egrep -v -q '^# +v[0-9.]+$')  ; then
+          gh api -q .content /repos/grafana/k6/contents/.golangci.yml | base64 -d > .golangci.yml
+        fi
+
+        echo "version=$(head -n 1 .golangci.yml | tr -d '# ')" >> $GITHUB_OUTPUT

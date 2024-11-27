@@ -1,0 +1,19 @@
+name: "Setup k6registry"
+description: "Setup to maintain the extension registry."
+
+inputs:
+  k6registry-version:
+    description: "version to install"
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Reminder to setup-eget
+      shell: bash
+      run: type eget || ( echo "Missing 'eget' command, did you forget the setup-eget action?" >&2; exit 1 )
+
+    - name: Install k6registry
+      shell: bash
+      run: |
+        eget -t "${{inputs.k6registry-version}}" grafana/k6registry
