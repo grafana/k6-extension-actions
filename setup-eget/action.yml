@@ -16,6 +16,7 @@ runs:
 
         curl https://zyedidia.github.io/eget.sh | sh
         mkdir -p $EGET_DIR && mv eget $EGET_DIR
-        printf "[global]\ntarget=\"$EGET_DIR\"\nquiet=true\ngithub_token=\"${{ github.token }}\"\n" > $EGET_CONFIG
+        DIR=$(readlink -f $EGET_DIR) # workaround for windows + toml
+        printf "[global]\ntarget='$DIR'\nquiet=true\ngithub_token='${{ github.token }}'\n" > $EGET_CONFIG
         echo $EGET_DIR >> $GITHUB_PATH
         echo "EGET_CONFIG=$EGET_CONFIG" >> $GITHUB_ENV
