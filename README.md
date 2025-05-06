@@ -1,5 +1,8 @@
 # k6-extension-actions
 
+> [!WARNING]
+> **Deprecated**. Use the reusable workflows from [xk6](https://github.com/grafana/xk6) or the [setup-xk6](https://github.com/grafana/setup-xk6) action.
+
 Set of reusable composite GitHub actions to support k6 extension development.
 
 The following composite actions can be found in the folders with the same name:
